@@ -131,6 +131,8 @@
   }
   .cell.beginner{background:rgba(224,36,32,0.14); border:1px solid rgba(224,36,32,0.4);}
   .cell.empty{background:transparent;}
+  .schedule-status{color:var(--ink-dim); font-size:0.85rem; margin-bottom:16px;}
+  .schedule-status.err{color:var(--red);}
 
   footer{
     padding:4vh 5vw;
@@ -210,12 +212,6 @@
           <label for="classtime">Class time <span class="req">*</span></label>
           <select id="classtime" name="classTime" required>
             <option value="">Select a class</option>
-            <option>Monday 6:15 PM — Beginner / All-Levels</option>
-            <option>Tuesday 6:15 PM — Beginner / All-Levels</option>
-            <option>Wednesday 6:15 PM — Beginner / All-Levels</option>
-            <option>Thursday 6:15 PM — Beginner / All-Levels</option>
-            <option>Friday 6:15 PM — Beginner / All-Levels</option>
-            <option>Saturday — Wrestling / No-Gi Open Mat</option>
           </select>
         </div>
       </div>
@@ -233,51 +229,12 @@
 
 <section id="schedule">
   <h2>Schedule</h2>
-  <table class="schedule-table">
+  <p id="schedule-status" class="schedule-status">Loading schedule...</p>
+  <table class="schedule-table" id="schedule-table">
     <thead>
-      <tr>
-        <th></th>
-        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-      </tr>
+      <tr id="schedule-head"></tr>
     </thead>
-    <tbody>
-      <tr>
-        <td class="time">10:00–11:30 AM</td>
-        <td><div class="cell">Advanced<br>(blue–black belt)</div></td>
-        <td><div class="cell">Pro-Training</div></td>
-        <td><div class="cell">Advanced<br>(blue–black belt)</div></td>
-        <td><div class="cell">Pro-Training</div></td>
-        <td><div class="cell">Advanced<br>(blue–black belt)</div></td>
-        <td><div class="cell empty">—</div></td>
-      </tr>
-      <tr>
-        <td class="time">12:00–5:00 PM</td>
-        <td><div class="cell">Privates</div></td>
-        <td><div class="cell">Privates</div></td>
-        <td><div class="cell">Privates</div></td>
-        <td><div class="cell">Privates</div></td>
-        <td><div class="cell">Privates</div></td>
-        <td><div class="cell beginner">Wrestling /<br>No-Gi Open Mat</div></td>
-      </tr>
-      <tr>
-        <td class="time">5:30–6:15 PM</td>
-        <td><div class="cell">Advanced Open Mat</div></td>
-        <td><div class="cell">Advanced Open Mat</div></td>
-        <td><div class="cell">Advanced Open Mat</div></td>
-        <td><div class="cell">Advanced Open Mat</div></td>
-        <td><div class="cell">Advanced Open Mat</div></td>
-        <td><div class="cell empty">—</div></td>
-      </tr>
-      <tr>
-        <td class="time">6:15 PM–Close</td>
-        <td><div class="cell beginner">Beginner / All-Levels</div></td>
-        <td><div class="cell beginner">Beginner / All-Levels</div></td>
-        <td><div class="cell beginner">Beginner / All-Levels</div></td>
-        <td><div class="cell beginner">Beginner / All-Levels</div></td>
-        <td><div class="cell beginner">Beginner / All-Levels</div></td>
-        <td><div class="cell empty">—</div></td>
-      </tr>
-    </tbody>
+    <tbody id="schedule-body"></tbody>
   </table>
 </section>
 
@@ -296,10 +253,83 @@
 </footer>
 
 <script>
-  const ENDPOINT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwR91phRvCpJ9junDvk7s_A2cG0sosH0m_HPblcHfHkYVugOfEAs3zDIu14_r6yVYrxaA/exec";
 
   const form = document.getElementById('intake-form');
   const status = document.getElementById('form-status');
+  const scheduleHead = document.getElementById('schedule-head');
+  const scheduleBody = document.getElementById('schedule-body');
+  const scheduleStatus = document.getElementById('schedule-status');
+  const classtime = document.getElementById('classtime');
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderScheduleCell(cell) {
+    if (!cell.text) {
+      return '<div class="cell empty">—</div>';
+    }
+    const className = cell.highlight ? 'cell beginner' : 'cell';
+    const label = escapeHtml(cell.text).replace(/\n/g, '<br>');
+    return `<div class="${className}">${label}</div>`;
+  }
+
+  function renderTrialOptions(labels) {
+    classtime.innerHTML = '<option value="">Select a class</option>';
+    labels.forEach((label) => {
+      const option = document.createElement('option');
+      option.textContent = label;
+      classtime.appendChild(option);
+    });
+  }
+
+  async function loadSchedule() {
+    if (ENDPOINT_URL.includes('PASTE_YOUR')) {
+      scheduleStatus.textContent = 'Schedule not connected — add your endpoint URL.';
+      scheduleStatus.className = 'schedule-status err';
+      return;
+    }
+
+    try {
+      const res = await fetch(ENDPOINT_URL);
+      if (!res.ok) throw new Error('request failed');
+
+      const data = await res.json();
+      const headers = data.schedule?.headers?.length
+        ? data.schedule.headers
+        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const rows = data.schedule?.rows || [];
+
+      scheduleHead.innerHTML = '<th></th>' + headers
+        .map((header) => `<th>${escapeHtml(header)}</th>`)
+        .join('');
+
+      if (!rows.length) {
+        scheduleBody.innerHTML = '<tr><td colspan="7">No schedule rows found in the Sheet.</td></tr>';
+      } else {
+        scheduleBody.innerHTML = rows.map((row) => `
+          <tr>
+            <td class="time">${escapeHtml(row.time)}</td>
+            ${row.days.map((day) => `<td>${renderScheduleCell(day)}</td>`).join('')}
+          </tr>
+        `).join('');
+      }
+
+      renderTrialOptions(data.trialClasses || []);
+      scheduleStatus.textContent = '';
+    } catch (err) {
+      scheduleStatus.textContent = 'Could not load schedule.';
+      scheduleStatus.className = 'schedule-status err';
+      scheduleBody.innerHTML = '';
+    }
+  }
+
+  loadSchedule();
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
