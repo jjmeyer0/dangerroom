@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jjmeyer0.github.io/dangerroom/sitemap.xml
+Sitemap: https://dangerroom612.com/sitemap.xml

@@ -77,6 +77,18 @@ Then one booking option per row (these populate the form dropdown):
 
 When you change the script later, use **Deploy > Manage deployments > Edit > New version**.
 
+### Schedule won't load / 403 error
+
+If the browser console shows `Access-Control-Allow-Origin` or `403`:
+
+1. In Apps Script: **Deploy > Manage deployments > Edit (pencil icon)**
+2. Confirm **Execute as: Me** and **Who has access: Anyone**
+   - Not "Anyone with Google account" — that blocks anonymous visitors
+3. Set **Version** to **New version**, click **Deploy**
+4. Paste the **new** `/exec` URL into `ENDPOINT_URL` in `index.html` if it changed
+5. Test in an **incognito** window: open the `/exec` URL directly. You should see
+   JSON like `{"schedule":...}` — not a Google sign-in page
+
 ## 3. Put the site online
 
 Three files need to travel together: `index.html`, `logo-checkmat.jpg`, and
