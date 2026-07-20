@@ -3,7 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Danger Room · Checkmat South Minneapolis</title>
+<title>Danger Room BJJ | Brazilian Jiu-Jitsu Gym in South Minneapolis</title>
+<meta name="description" content="Book a free trial at Danger Room, a Brazilian Jiu-Jitsu gym in South Minneapolis. Checkmat affiliate with beginner-friendly BJJ classes near Loring Park.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jjmeyer0.github.io/dangerroom/">
+<link rel="icon" href="logo-dangerroom.png" type="image/png">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Danger Room BJJ | Brazilian Jiu-Jitsu in South Minneapolis">
+<meta property="og:description" content="Book a free trial at Danger Room. Checkmat South Minneapolis — beginner-friendly Brazilian Jiu-Jitsu near Loring Park.">
+<meta property="og:url" content="https://jjmeyer0.github.io/dangerroom/">
+<meta property="og:image" content="https://jjmeyer0.github.io/dangerroom/logo-dangerroom.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Danger Room BJJ | South Minneapolis">
+<meta name="twitter:description" content="Brazilian Jiu-Jitsu gym in South Minneapolis. Book a free trial class.">
+<meta name="twitter:image" content="https://jjmeyer0.github.io/dangerroom/logo-dangerroom.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "SportsActivityLocation"],
+  "name": "Danger Room",
+  "alternateName": "Checkmat South Minneapolis",
+  "description": "Brazilian Jiu-Jitsu gym in South Minneapolis offering beginner-friendly classes and free trial sessions.",
+  "url": "https://jjmeyer0.github.io/dangerroom/",
+  "image": "https://jjmeyer0.github.io/dangerroom/logo-dangerroom.png",
+  "telephone": "+1-612-470-9980",
+  "email": "checkmatsouthminneapolis@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1362 La Salle Ave",
+    "addressLocality": "Minneapolis",
+    "addressRegion": "MN",
+    "postalCode": "55403",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 44.9696,
+    "longitude": -93.2776
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Minneapolis"
+  },
+  "knowsAbout": ["Brazilian Jiu-Jitsu", "BJJ", "Grappling", "Martial Arts"],
+  "sameAs": [
+    "https://www.instagram.com/dangerroom612/",
+    "https://www.facebook.com/profile.php?id=100087888228859"
+  ]
+}
+</script>
 <style>
   :root{
     --bg:#0a0a0a;
@@ -24,6 +74,13 @@
     line-height:1.5;
   }
   h1,h2{margin:0; font-size:1.5rem; font-weight:700;}
+  .site-lede{
+    margin:0 5vw 0;
+    padding:18px 0 0;
+    color:var(--ink-dim);
+    font-size:0.9rem;
+    max-width:60ch;
+  }
   a{color:inherit;}
   img{max-width:100%;display:block;}
 
@@ -36,8 +93,9 @@
   }
   .nav-brand{display:flex; align-items:center; gap:12px;}
   .nav-brand img{height:38px; width:auto; border-radius:50%;}
-  .nav-name{font-size:0.85rem; line-height:1.2;}
-  .nav-name small{color:var(--ink-dim); font-size:0.75rem; display:block;}
+  .nav-name{font-size:0.85rem; line-height:1.2; font-weight:700;}
+  .nav-name h1{font-size:inherit; font-weight:inherit;}
+  .nav-name small{color:var(--ink-dim); font-size:0.75rem; display:block; font-weight:400;}
   .nav-contact{display:flex; align-items:center; gap:18px;}
   .nav-contact a{font-size:0.85rem; color:var(--ink-dim); text-decoration:none;}
   .nav-contact a:hover{color:var(--ink);}
@@ -146,6 +204,7 @@
   }
   .foot-brand{display:flex; align-items:center; gap:12px;}
   .foot-brand img{height:32px; border-radius:50%;}
+  .foot-brand address{font-style:normal;}
   .foot-links{display:flex; gap:18px; flex-wrap:wrap;}
   .foot-links a{text-decoration:none; color:var(--ink-dim);}
   .foot-links a:hover{color:var(--ink);}
@@ -159,12 +218,12 @@
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" aria-label="Main">
   <div class="nav-brand">
-    <img src="logo-dangerroom.png" alt="Danger Room">
+    <img src="logo-dangerroom.png" alt="Danger Room Brazilian Jiu-Jitsu gym logo" width="38" height="38">
     <div class="nav-name">
-      Danger Room
-      <small>Checkmat South Minneapolis</small>
+      <h1>Danger Room</h1>
+      <small>Checkmat South Minneapolis · Brazilian Jiu-Jitsu</small>
     </div>
   </div>
   <div class="nav-contact">
@@ -174,6 +233,9 @@
   </div>
 </nav>
 
+<p class="site-lede">Brazilian Jiu-Jitsu gym in South Minneapolis. Book a free trial class below.</p>
+
+<main id="main">
 <header class="hero" id="signup">
   <div class="hero-inner">
     <form id="intake-form">
@@ -227,9 +289,10 @@
   </div>
 </header>
 
-<section id="schedule">
-  <h2>Schedule</h2>
-  <p id="schedule-status" class="schedule-status">Loading schedule...</p>
+<section id="schedule" aria-labelledby="schedule-heading">
+  <h2 id="schedule-heading">Class Schedule</h2>
+  <p class="schedule-status" id="schedule-status">Loading schedule...</p>
+  <noscript><p class="schedule-status">Enable JavaScript to view the weekly class schedule.</p></noscript>
   <table class="schedule-table" id="schedule-table">
     <thead>
       <tr id="schedule-head"></tr>
@@ -237,18 +300,19 @@
     <tbody id="schedule-body"></tbody>
   </table>
 </section>
+</main>
 
 <footer>
   <div class="foot-brand">
-    <img src="logo-dangerroom.png" alt="Danger Room">
-    <div>1362 La Salle Ave, Minneapolis, MN 55403</div>
+    <img src="logo-dangerroom.png" alt="Danger Room BJJ logo" width="32" height="32">
+    <address>1362 La Salle Ave, Minneapolis, MN 55403</address>
   </div>
   <div class="foot-links">
     <a href="tel:+16124709980">(612) 470-9980</a>
     <a href="mailto:checkmatsouthminneapolis@gmail.com">Email</a>
     <a href="https://www.instagram.com/dangerroom612/" target="_blank" rel="noopener">Instagram</a>
     <a href="https://www.facebook.com/profile.php?id=100087888228859" target="_blank" rel="noopener">Facebook</a>
-    <a href="https://www.bing.com/maps/default.aspx?v=2&pc=FACEBK&mid=8100&where1=1362%20La%20Salle%20Ave.%2C%20Minneapolis%2C%20MN%2C%20United%20States%2C%2055403" target="_blank" rel="noopener">Directions</a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=1362+La+Salle+Ave,+Minneapolis,+MN+55403" target="_blank" rel="noopener">Directions</a>
   </div>
 </footer>
 

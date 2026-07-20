@@ -93,6 +93,25 @@ Easiest free option: **Netlify** or **Cloudflare Pages**.
 
 That's it — domain, form, schedule, and hosting all connected.
 
+## SEO checklist
+
+When you connect a custom domain, search `index.html`, `robots.txt`, and
+`sitemap.xml` for `jjmeyer0.github.io/dangerroom` and replace with your live
+URL (include `https://`, use a trailing slash on the homepage URL in
+canonical/og tags).
+
+After the site is live:
+
+1. **Google Search Console** — add your domain and submit `sitemap.xml`.
+2. **Google Business Profile** — claim or create a listing for the gym; link
+   to this site and match the name, address, and phone exactly.
+3. **Keep NAP consistent** — name, address, and phone should match everywhere
+   (site footer, Google, Instagram, Facebook).
+
+The page already includes a meta description, Open Graph tags, JSON-LD local
+business schema, semantic headings, and crawl files (`robots.txt`,
+`sitemap.xml`).
+
 ## Updating the schedule later
 
 Edit the **Schedule** or **Trial Classes** tab in Google Sheets. Changes show
